@@ -1,8 +1,7 @@
-// /pages/id/[id].js
+import Head from 'next/head';
 
-export async function getServerSideProps(context) {
-  const { query } = context;
-  const { title = "Default Title", desc = "Default Description", img = "", url = "" } = query;
+export async function getServerSideProps({ query }) {
+  const { title = '', desc = '', img = '', url = '' } = query;
 
   return {
     props: {
@@ -25,20 +24,14 @@ export default function OGPage({ title, desc, img, url }) {
         {url && <meta property="og:url" content={url} />}
         <meta property="og:type" content="website" />
       </Head>
-      <main style={{ textAlign: "center", padding: "2rem" }}>
-        <h1>{title}</h1>
-        <p>{desc}</p>
-        {img && <img src={img} alt={title} style={{ maxWidth: "100%", height: "auto" }} />}
-        {url && (
-          <p>
-            <a href={url} target="_blank" rel="noopener noreferrer">
-              {url}
-            </a>
-          </p>
-        )}
-      </main>
+      <h1>{title}</h1>
+      <p>{desc}</p>
+      <img src={img} alt={title} style={{ maxWidth: '100%' }} />
+      {url && (
+        <p>
+          <a href={url} target="_blank" rel="noopener noreferrer">{url}</a>
+        </p>
+      )}
     </>
   );
 }
-
-import Head from "next/head";
