@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom OG Generator</title>
+  <style>
+    body {
+      background: #f8e473;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: sans-serif;
+    }
+    .container {
+      background: #f5d86c;
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+    button {
+      background: #e57d74;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Custom OG Link</h2>
+    <input type="text" id="title" placeholder="OG Title">
+    <input type="text" id="description" placeholder="OG Description">
+    <input type="text" id="image" placeholder="OG Image URL">
+    <input type="text" id="link" placeholder="Link Tujuan (https://...)">
+    <button onclick="generateLink()">Generate Link</button>
+    <div id="result" style="margin-top:10px;"></div>
+  </div>
+
+  <script>
+    function generateLink() {
+      const title = encodeURIComponent(document.getElementById('title').value);
+      const description = encodeURIComponent(document.getElementById('description').value);
+      const image = encodeURIComponent(document.getElementById('image').value);
+      const link = encodeURIComponent(document.getElementById('link').value);
+
+      // Generate ID (bisa pakai backend atau hash)
+      const id = Math.random().toString(36).substr(2, 8);
+
+      // Contoh link dengan query untuk backend
+      const fullLink = `https://gattnotif.vercel.app/${id}?title=${title}&desc=${description}&img=${image}&url=${link}`;
+
+      document.getElementById('result').innerHTML = `<a href="${fullLink}" target="_blank">${fullLink}</a>`;
+    }
+  </script>
+</body>
+</html>
