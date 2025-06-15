@@ -9,28 +9,27 @@ export default function Home() {
     const desc = encodeURIComponent(e.target.desc.value);
     const img = encodeURIComponent(e.target.img.value);
     const url = encodeURIComponent(e.target.url.value);
-
     const id = Math.random().toString(36).substring(2, 8);
     const link = `${window.location.origin}/${id}?title=${title}&desc=${desc}&img=${img}&url=${url}`;
     setGeneratedLink(link);
   };
 
   return (
-    <div style={{ padding: "2rem", fontFamily: "sans-serif", background: "#fef3c7", minHeight: "100vh" }}>
+    <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
       <h1>Generate Custom OG Link</h1>
-      <form onSubmit={generateLink} style={{ display: "flex", flexDirection: "column", gap: "1rem", maxWidth: "400px" }}>
-        <input name="title" placeholder="OG Title" required style={{ padding: "0.5rem" }} />
-        <input name="desc" placeholder="OG Description" required style={{ padding: "0.5rem" }} />
-        <input name="img" placeholder="OG Image URL" required style={{ padding: "0.5rem" }} />
-        <input name="url" placeholder="Target URL" required style={{ padding: "0.5rem" }} />
-        <button type="submit" style={{ padding: "0.75rem", background: "#f87171", color: "white", border: "none", borderRadius: "5px" }}>
+      <form onSubmit={generateLink} style={{ display: "grid", gap: "0.5rem", maxWidth: "500px" }}>
+        <input type="text" name="title" placeholder="OG Title" required />
+        <input type="text" name="desc" placeholder="OG Description" required />
+        <input type="url" name="img" placeholder="OG Image URL" required />
+        <input type="url" name="url" placeholder="Target URL (Optional)" />
+        <button type="submit" style={{ padding: "0.5rem", background: "#333", color: "#fff", border: "none" }}>
           Generate Link
         </button>
       </form>
 
       {generatedLink && (
-        <div style={{ marginTop: "2rem" }}>
-          <h3>Generated Link:</h3>
+        <div style={{ marginTop: "1rem" }}>
+          <h2>Generated Link:</h2>
           <a href={generatedLink} target="_blank" rel="noopener noreferrer" style={{ color: "blue" }}>
             {generatedLink}
           </a>
