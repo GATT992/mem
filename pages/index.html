@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Generate Custom OG Link</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
-      max-width: 600px;
       margin: auto;
+      max-width: 600px;
     }
     input, button {
       padding: 8px;
@@ -40,20 +40,26 @@
   </div>
 
   <script>
+    // Get form and output div elements
     const form = document.getElementById('ogForm');
     const outputDiv = document.getElementById('output');
     const generatedLink = document.getElementById('generatedLink');
 
+    // Event listener for form submission
     form.addEventListener('submit', function(e) {
-      e.preventDefault();
+      e.preventDefault(); // Prevent form submission
 
+      // Get form input values
       const title = encodeURIComponent(document.getElementById('title').value);
       const desc = encodeURIComponent(document.getElementById('desc').value);
       const img = encodeURIComponent(document.getElementById('img').value);
       const url = encodeURIComponent(document.getElementById('url').value);
-      const id = Math.random().toString(36).substring(2, 8);
+      const id = Math.random().toString(36).substring(2, 8); // Random ID for the URL
 
+      // Construct the generated link
       const link = `${window.location.origin}/id/${id}?title=${title}&desc=${desc}&img=${img}&url=${url}`;
+      
+      // Set the generated link and display it
       generatedLink.href = link;
       generatedLink.textContent = link;
       outputDiv.style.display = 'block';
