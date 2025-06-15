@@ -1,20 +1,31 @@
-// Folder structure // /pages/index.js     => Halaman form input // /pages/[id].js      => Halaman dinamis dengan OG tag
+import Head from "next/head";
+import { useRouter } from "next/router";
 
-// 1️⃣ pages/index.js
+export default function OGPage() {
+  const router = useRouter();
+  const { title, desc, img, url } = router.query;
 
-import { useState } from 'react'; import { useRouter } from 'next/router';
-
-export default function Home() { const [title, setTitle] = useState(''); const [desc, setDesc] = useState(''); const [img, setImg] = useState(''); const [url, setUrl] = useState(''); const router = useRouter();
-
-function generateLink() { const id = Math.random().toString(36).substring(2, 8); const params = new URLSearchParams({ title, desc, img, url }); router.push(/${id}?${params.toString()}); }
-
-return ( <div style={{ padding: 20 }}> <h2>Generate OG Link</h2> <input type="text" placeholder="OG Title" value={title} onChange={(e) => setTitle(e.target.value)} /><br /> <input type="text" placeholder="OG Description" value={desc} onChange={(e) => setDesc(e.target.value)} /><br /> <input type="text" placeholder="OG Image URL" value={img} onChange={(e) => setImg(e.target.value)} /><br /> <input type="text" placeholder="Target URL" value={url} onChange={(e) => setUrl(e.target.value)} /><br /> <button onClick={generateLink}>Generate</button> </div> ); }
-
-// 2️⃣ pages/[id].js
-
-export async function getServerSideProps({ query }) { const { title = 'Default Title', desc = 'Default Description', img = '', url = 'https://example.com' } = query;
-
-return { props: { title, desc, img, url }, }; }
-
-export default function OGPage({ title, desc, img, url }) { return ( <> <head> <title>{title}</title> <meta property="og:title" content={title} /> <meta property="og:description" content={desc} /> <meta property="og:image" content={img} /> <meta property="og:url" content={url} /> </head> <body> <h1>{title}</h1> <p>{desc}</p> <a href={url} target="_blank">Go to Link</a> </body> </> ); }
-
+  return (
+    <>
+      <Head>
+        <title>{title || "Default Title"}</title>
+        <meta property="og:title" content={title || "Default Title"} />
+        <meta property="og:description" content={desc || "Default Description"} />
+        <meta property="og:image" content={img || "https://via.placeholder.com/600x400.png?text=OG+Image"} />
+        <meta property="og:url" content={url || "https://gattnotif.vercel.app"} />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Head>
+      <div style={{ padding: "2rem", textAlign: "center", fontFamily: "sans-serif" }}>
+        <h1>{title || "OG Metadata Generator"}</h1>
+        <p>{desc || "This is a dynamically generated OG page."}</p>
+        {img && <img src={img} alt="OG Image" style={{ maxWidth: "100%", marginTop: "1rem" }} />}
+        <br />
+        {url && (
+          <a href={url} target="_blank" rel="noopener noreferrer" style={{ marginTop: "1rem", display: "inline-block", color: "blue" }}>
+            {url}
+          </a>
+        )}
+      </div>
+    </>
+  );
+}
