@@ -1,40 +1,63 @@
-import { useState } from "react";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Generate Custom OG Link</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    input, button {
+      padding: 8px;
+      margin: 5px 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    #output {
+      margin-top: 15px;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <h1>Generate Custom OG Link</h1>
 
-export default function Home() {
-  const [generatedLink, setGeneratedLink] = useState("");
+  <form id="ogForm">
+    <input type="text" id="title" placeholder="OG Title" required><br>
+    <input type="text" id="desc" placeholder="OG Description" required><br>
+    <input type="url" id="img" placeholder="OG Image URL" required><br>
+    <input type="url" id="url" placeholder="Target URL (Optional)"><br>
+    <button type="submit">Generate Link</button>
+  </form>
 
-  const generateLink = (e) => {
-    e.preventDefault();
-    const title = encodeURIComponent(e.target.title.value);
-    const desc = encodeURIComponent(e.target.desc.value);
-    const img = encodeURIComponent(e.target.img.value);
-    const url = encodeURIComponent(e.target.url.value);
-    const id = Math.random().toString(36).substring(2, 8);
-    const link = `${window.location.origin}/${id}?title=${title}&desc=${desc}&img=${img}&url=${url}`;
-    setGeneratedLink(link);
-  };
+  <div id="output" style="display:none;">
+    <h3>Generated Link:</h3>
+    <a id="generatedLink" href="#" target="_blank"></a>
+  </div>
 
-  return (
-    <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
-      <h1>Generate Custom OG Link</h1>
-      <form onSubmit={generateLink} style={{ display: "grid", gap: "0.5rem", maxWidth: "500px" }}>
-        <input type="text" name="title" placeholder="OG Title" required />
-        <input type="text" name="desc" placeholder="OG Description" required />
-        <input type="url" name="img" placeholder="OG Image URL" required />
-        <input type="url" name="url" placeholder="Target URL (Optional)" />
-        <button type="submit" style={{ padding: "0.5rem", background: "#333", color: "#fff", border: "none" }}>
-          Generate Link
-        </button>
-      </form>
+  <script>
+    const form = document.getElementById('ogForm');
+    const outputDiv = document.getElementById('output');
+    const generatedLink = document.getElementById('generatedLink');
 
-      {generatedLink && (
-        <div style={{ marginTop: "1rem" }}>
-          <h2>Generated Link:</h2>
-          <a href={generatedLink} target="_blank" rel="noopener noreferrer" style={{ color: "blue" }}>
-            {generatedLink}
-          </a>
-        </div>
-      )}
-    </div>
-  );
-}
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const title = encodeURIComponent(document.getElementById('title').value);
+      const desc = encodeURIComponent(document.getElementById('desc').value);
+      const img = encodeURIComponent(document.getElementById('img').value);
+      const url = encodeURIComponent(document.getElementById('url').value);
+      const id = Math.random().toString(36).substring(2, 8);
+
+      const link = `${window.location.origin}/id/${id}?title=${title}&desc=${desc}&img=${img}&url=${url}`;
+      generatedLink.href = link;
+      generatedLink.textContent = link;
+      outputDiv.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
