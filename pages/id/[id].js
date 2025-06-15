@@ -1,37 +1,34 @@
 import Head from 'next/head';
 
-export async function getServerSideProps({ query }) {
-  const { title = '', desc = '', img = '', url = '' } = query;
-
-  return {
-    props: {
-      title: decodeURIComponent(title),
-      desc: decodeURIComponent(desc),
-      img: decodeURIComponent(img),
-      url: decodeURIComponent(url),
-    },
-  };
-}
-
-export default function OGPage({ title, desc, img, url }) {
+export default function OGPage({ title, desc, imgUrl }) {
   return (
     <>
       <Head>
         <title>{title}</title>
         <meta property="og:title" content={title} />
         <meta property="og:description" content={desc} />
-        <meta property="og:image" content={img} />
-        {url && <meta property="og:url" content={url} />}
+        <meta property="og:image" content={imgUrl} />
         <meta property="og:type" content="website" />
+        <meta property="og:url" content={imgUrl} />
       </Head>
       <h1>{title}</h1>
       <p>{desc}</p>
-      <img src={img} alt={title} style={{ maxWidth: '100%' }} />
-      {url && (
-        <p>
-          <a href={url} target="_blank" rel="noopener noreferrer">{url}</a>
-        </p>
-      )}
+      <img src={imgUrl} alt="OG Image" />
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { query, params } = context;
+  const title = query.title || 'Default Title';
+  const desc = query.desc || 'Default Description';
+  const imgUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://gattnotif.vercel.app'}/api/og?title=${encodeURIComponent(title)}&desc=${encodeURIComponent(desc)}`;
+
+  return {
+    props: {
+      title,
+      desc,
+      imgUrl,
+    },
+  };
 }
